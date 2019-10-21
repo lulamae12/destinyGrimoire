@@ -1,7 +1,7 @@
 import requests
 import urllib.request
 from urllib.request import Request
-import time,sys
+import time,sys,os,json
 from bs4 import BeautifulSoup
 from soupMaker import soupGen
 
@@ -66,14 +66,53 @@ class grimoreScrape():
             print(data)
             return data   
 
-    def saveJson(self,jsonDict,jsonInfoTuple):
+
+
+    def saveJson(self,jsonDict,fileInfoTuple):
+        currentDir = os.getcwd()
+
+        if os.path.exists("Destiny1Grimoire") == False:
+            os.makedirs("Destiny1Grimoire")
+            print("Directory 'Destiny1Grimoire' created!")
+        else:
+            pass
+        
+        
+        topPathCat = fileInfoTuple[0]
+        bottomPathCat = fileInfoTuple[1]
+        currentDir = currentDir + "\\" + "Destiny1Grimoire\\" +topPathCat
+        if os.path.exists(currentDir) == False:
+            os.makedirs(currentDir)
+            print("Directory ",topPathCat," created in :\n",currentDir)
+        else:
+            pass
+        currentDir = currentDir + "\\" +bottomPathCat
+        if os.path.exists(currentDir) == False:
+            os.makedirs(currentDir)
+            print("Directory ",bottomPathCat," created in :\n",currentDir)
+        else:
+            pass
+
+        
+
+
+        print(currentDir)
+        
+
+        with open(currentDir + "\grimoireJson.json","a") as jsonFile:
+            json.dump(jsonDict,jsonFile,indent=4)
         print(jsonDict)
+        
     def findLoreEntryObjects(self,soup):
         loreSections = []
+        #print(url)
         url = self.url
+        url = url.replace("https://db.destinytracker.com/d1/grimoire/","")
+        urlTuple = url.split("/")
         for section in soup.find_all("div",class_="panel panel-default clearfix grimoire-card"):
             loreSections.append(section)
         #print(loreSections[0])
+
         for item in loreSections:
             soupSection = BeautifulSoup(str(item))
             
@@ -98,7 +137,7 @@ class grimoreScrape():
             print("Image url: ",cardImageUrl)
             print("===============")
             data = self.makeJson(cardTitle,cardSubtitle,cardDescription,cardImageName,cardImageUrl)
-
+            self.saveJson(data,urlTuple)
             #sys.exit()
             
         # maincontent = soup.find("div",class_="panel panel-default clearfix grimoire-card")
