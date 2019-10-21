@@ -40,7 +40,7 @@ class grimoreScrape():
             if str('class="subtitle">') not in str(item).split(): #not subtitle must be desc
                 description = item
         
-        description = str(description);description = description.replace("<p>","");description = description.replace("</p>","");description = description.replace("<br/>","\n")
+        description = str(description);description = description.replace("<p>","");description = description.replace("</p>","");description = description.replace("<br/>","\n");description = description.replace("\'","'")
 
         return description
     def findTitle(self,soup):
@@ -53,10 +53,24 @@ class grimoreScrape():
         imgName = soup["alt"];imgName =imgName + ".jpg"
         
         return imgSrc,imgName
+    def makeJson(self,Title,Subtitle,Description,ImageName,ImageUrl):
+            data = {
+                Title:{
+                    "Title":Title,
+                    "Subtitle":Subtitle,
+                    "Description":Description,
+                    "ImageName":ImageName,
+                    "ImageUrl":ImageUrl
+                }
+            }
+            print(data)
+            return data   
 
-
+    def saveJson(self,jsonDict,jsonInfoTuple):
+        print(jsonDict)
     def findLoreEntryObjects(self,soup):
         loreSections = []
+        url = self.url
         for section in soup.find_all("div",class_="panel panel-default clearfix grimoire-card"):
             loreSections.append(section)
         #print(loreSections[0])
@@ -83,7 +97,7 @@ class grimoreScrape():
             print("\nImage name: ",cardImageName)
             print("Image url: ",cardImageUrl)
             print("===============")
-
+            data = self.makeJson(cardTitle,cardSubtitle,cardDescription,cardImageName,cardImageUrl)
 
             #sys.exit()
             
@@ -94,5 +108,7 @@ class grimoreScrape():
          #   print(i)
         #print(list1[0])
 
+
+            
 g= grimoreScrape("https://db.destinytracker.com/d1/grimoire/guardian/ghost")
 g.makeSoup()
