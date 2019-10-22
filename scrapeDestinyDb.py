@@ -7,7 +7,7 @@ from soupMaker import soupGen
 
 
 
-class grimoreScrape():
+class grimoireScrape():
     def __init__(self,link):
         self.url = link
         self.response = requests.get(self.url)
@@ -18,14 +18,14 @@ class grimoreScrape():
         #print(soupPretty)
         self.findLoreEntryObjects(soup)
     def formatSubtitle(self,subtitle):
-        subtitle = str(subtitle);subtitle = subtitle.strip('<p class="subtitle">');subtitle = subtitle.replace("<b>","");subtitle = subtitle.replace("</b>","");subtitle = subtitle.replace("</","");subtitle = subtitle.replace("\n","")
+        subtitle = str(subtitle);subtitle = subtitle.strip('<p class="subtitle">');subtitle = subtitle.replace("<b>","");subtitle = subtitle.replace("</b>","");subtitle = subtitle.replace("</","");subtitle = subtitle.replace("\n","");subtitle = subtitle.replace('\"',"");subtitle =subtitle.replace("\u2014","-");subtitle =subtitle.replace("\u201d",'"');subtitle =subtitle.replace("\u201c",'"');subtitle =subtitle.replace("<i>",'');subtitle = subtitle.replace("\u2019","'")
 
         #has < or > as special chars idents
         subtitle = subtitle.replace("&lt;","<");subtitle = subtitle.replace("&gt;",">")
 
         #italics
-        subtitle = subtitle.replace("<span><i>","");subtitle = subtitle.replace("i>span>","")
-
+        subtitle = subtitle.replace("<span><i>","");subtitle = subtitle.replace("i>span>","");subtitle=subtitle.replace("i>","");subtitle = subtitle.replace("<span>","");subtitle = subtitle.replace("&gt;",">");subtitle=subtitle.replace("</","");subtitle = subtitle.replace("\u00fb","u");subtitle = subtitle.replace("<br/>","")
+        
         #print(subtitleSpl)
         if subtitle == "Non":
             #print("NONETYPE FOUND")
@@ -40,8 +40,9 @@ class grimoreScrape():
             if str('class="subtitle">') not in str(item).split(): #not subtitle must be desc
                 description = item
         
-        description = str(description);description = description.replace("<p>","");description = description.replace("</p>","");description = description.replace("<br/>","\n");description = description.replace("\'","'")
-
+        description = str(description);description = description.replace("<p>","");description = description.replace("</p>","");description = description.replace("<br/>","\n");description = description.replace("\"","'");description =description.replace("\u2014","-");description =description.replace("\u201d",'"');description =description.replace("\u201c",'"');description =description.replace("<i>",'');description = description.replace("i>span>","")
+        description = description.replace("i>","");description = description.replace("<b>","");description = description.replace("\u2019","'");description=description.replace("i>","");description = description.replace("\u2013"," - ");description = description.replace("&gt;",">");description = description.replace("</","");description = description.replace("&lt;","<");description = description.replace("\u00fb","u");description=description.replace("<br/>","")
+       
         return description
     def findTitle(self,soup):
         soupTitle = BeautifulSoup(str(soup))
@@ -51,6 +52,7 @@ class grimoreScrape():
     def getImageUrl(self,soup): #get src attribute from img tag
         imgSrc = soup["src"]
         imgName = soup["alt"];imgName =imgName + ".jpg"
+        imgName = imgName.replace("&#39;","'");imgName = imgName.replace("&lt;","<");imgName=imgName.replace("&gt;",">");imgName = imgName.replace("\u00fb","u")
         
         return imgSrc,imgName
     def makeJson(self,Title,Subtitle,Description,ImageName,ImageUrl):
@@ -63,7 +65,7 @@ class grimoreScrape():
                     "ImageUrl":ImageUrl
                 }
             }
-            print(data)
+            #print(data)
             return data   
 
 
@@ -96,12 +98,12 @@ class grimoreScrape():
         
 
 
-        print(currentDir)
+        #print(currentDir)
         
 
         with open(currentDir + "\grimoireJson.json","a") as jsonFile:
             json.dump(jsonDict,jsonFile,indent=4)
-        print(jsonDict)
+        #print(jsonDict)
         
     def findLoreEntryObjects(self,soup):
         loreSections = []
@@ -147,7 +149,74 @@ class grimoreScrape():
          #   print(i)
         #print(list1[0])
 
+urlList = [
+    "https://db.destinytracker.com/d1/grimoire/guardian/classes",
+    "https://db.destinytracker.com/d1/grimoire/guardian/races",
+    "https://db.destinytracker.com/d1/grimoire/guardian/ghost",
+    "https://db.destinytracker.com/d1/grimoire/guardian/sub-classes",
+    "https://db.destinytracker.com/d1/grimoire/guardian/melee-abilities",
+    "https://db.destinytracker.com/d1/grimoire/guardian/grenade-abilities",
+    "https://db.destinytracker.com/d1/grimoire/guardian/movement-modes",
+    "https://db.destinytracker.com/d1/grimoire/guardian/super-abilities",
+    "https://db.destinytracker.com/d1/grimoire/inventory/primary-weapons",
+    "https://db.destinytracker.com/d1/grimoire/inventory/special-weapons",
+    "https://db.destinytracker.com/d1/grimoire/inventory/heavy-weapons",
+    "https://db.destinytracker.com/d1/grimoire/inventory/damage-types",
+    "https://db.destinytracker.com/d1/grimoire/inventory/guardian-vehicles",
+    "https://db.destinytracker.com/d1/grimoire/inventory/economy",
+    "https://db.destinytracker.com/d1/grimoire/allies/the-traveler",
+    "https://db.destinytracker.com/d1/grimoire/allies/tower-allies",
+    "https://db.destinytracker.com/d1/grimoire/allies/city-factions",
+    "https://db.destinytracker.com/d1/grimoire/allies/the-exo-stranger",
+    "https://db.destinytracker.com/d1/grimoire/allies/the-queen",
+    "https://db.destinytracker.com/d1/grimoire/allies/rasputin",
+    "https://db.destinytracker.com/d1/grimoire/allies/osiris",
+    "https://db.destinytracker.com/d1/grimoire/allies/legends-mysteries",
+    "https://db.destinytracker.com/d1/grimoire/allies/iron-lords",
+    "https://db.destinytracker.com/d1/grimoire/enemies/fallen",
+    "https://db.destinytracker.com/d1/grimoire/enemies/fallen-arsenal",
+    "https://db.destinytracker.com/d1/grimoire/enemies/fallen-leadership",
+    "https://db.destinytracker.com/d1/grimoire/enemies/fallen-hunted",
+    "https://db.destinytracker.com/d1/grimoire/enemies/hive",
+    "https://db.destinytracker.com/d1/grimoire/enemies/hive-arsenal",
+    "https://db.destinytracker.com/d1/grimoire/enemies/exalted-hive",
+    "https://db.destinytracker.com/d1/grimoire/enemies/vex",
+    "https://db.destinytracker.com/d1/grimoire/enemies/vex-arsenal",
+    "https://db.destinytracker.com/d1/grimoire/enemies/vex-axis-minds",
+    "https://db.destinytracker.com/d1/grimoire/enemies/cabal",
+    "https://db.destinytracker.com/d1/grimoire/enemies/cabal-arsenal",
+    "https://db.destinytracker.com/d1/grimoire/enemies/cabal-command",
+    "https://db.destinytracker.com/d1/grimoire/enemies/darkness",
+    "https://db.destinytracker.com/d1/grimoire/enemies/books-of-sorrow",
+    "https://db.destinytracker.com/d1/grimoire/enemies/the-taken",
+    "https://db.destinytracker.com/d1/grimoire/enemies/siva",
+    "https://db.destinytracker.com/d1/grimoire/places/mercury",
+    "https://db.destinytracker.com/d1/grimoire/places/venus",
+    "https://db.destinytracker.com/d1/grimoire/places/earth",
+    "https://db.destinytracker.com/d1/grimoire/places/the-city",
+    "https://db.destinytracker.com/d1/grimoire/places/moon",
+    "https://db.destinytracker.com/d1/grimoire/places/mars",
+    "https://db.destinytracker.com/d1/grimoire/places/the-asteroid-belt",
+    "https://db.destinytracker.com/d1/grimoire/places/jupiter",
+    "https://db.destinytracker.com/d1/grimoire/places/saturn",
+    "https://db.destinytracker.com/d1/grimoire/activities/story-earth-old-russia",
+    "https://db.destinytracker.com/d1/grimoire/activities/story-moon-ocean-of-storms",
+    "https://db.destinytracker.com/d1/grimoire/activities/story-venus-ishtar-sink",
+    "https://db.destinytracker.com/d1/grimoire/activities/story-mars-meridian-bay",
+    "https://db.destinytracker.com/d1/grimoire/activities/the-dark-below",
+    "https://db.destinytracker.com/d1/grimoire/activities/house-of-wolves",
+    "https://db.destinytracker.com/d1/grimoire/activities/the-taken-king",
+    "https://db.destinytracker.com/d1/grimoire/activities/strikes",
+    "https://db.destinytracker.com/d1/grimoire/activities/raids",
+    "https://db.destinytracker.com/d1/grimoire/activities/crucible-playlists",
+    "https://db.destinytracker.com/d1/grimoire/activities/crucible-arenas",
+    "https://db.destinytracker.com/d1/grimoire/activities/other-activities",
+    "https://db.destinytracker.com/d1/grimoire/activities/rise-of-iron"
+]
 
-            
-g= grimoreScrape("https://db.destinytracker.com/d1/grimoire/guardian/ghost")
-g.makeSoup()
+for link in urlList:
+    grimoire = grimoireScrape(link)
+    grimoire.makeSoup()
+
+
+print("DONE!")
