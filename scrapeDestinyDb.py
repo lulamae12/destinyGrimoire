@@ -39,7 +39,7 @@ class grimoireScrape():
             
             if str('class="subtitle">') not in str(item).split(): #not subtitle must be desc
                 description = item
-        
+        #s
         description = str(description);description = description.replace("<p>","");description = description.replace("</p>","");description = description.replace("<br/>","\n");description = description.replace("\"","'");description =description.replace("\u2014","-");description =description.replace("\u201d",'"');description =description.replace("\u201c",'"');description =description.replace("<i>",'');description = description.replace("i>span>","")
         description = description.replace("i>","");description = description.replace("<b>","");description = description.replace("\u2019","'");description=description.replace("i>","");description = description.replace("\u2013"," - ");description = description.replace("&gt;",">");description = description.replace("</","");description = description.replace("&lt;","<");description = description.replace("\u00fb","u");description=description.replace("<br/>","")
        
