@@ -47,12 +47,13 @@ class grimoireScrape():
     def findTitle(self,soup):
         soupTitle = BeautifulSoup(str(soup))
         title = soupTitle.find("a").string
+        title = title.replace("\n"," ")
         return title
 
     def getImageUrl(self,soup): #get src attribute from img tag
         imgSrc = soup["src"]
         imgName = soup["alt"];imgName =imgName + ".jpg"
-        imgName = imgName.replace("&#39;","'");imgName = imgName.replace("&lt;","<");imgName=imgName.replace("&gt;",">");imgName = imgName.replace("\u00fb","u")
+        imgName = imgName.replace("&#39;","'");imgName = imgName.replace("&lt;","<");imgName=imgName.replace("&gt;",">");imgName = imgName.replace("\u00fb","u");imgName = imgName.replace("\n"," ")
         
         return imgSrc,imgName
     def makeJson(self,Title,Subtitle,Description,ImageName,ImageUrl):
@@ -70,7 +71,7 @@ class grimoireScrape():
 
 
 
-    def saveJson(self,jsonDict,fileInfoTuple):
+    def saveJson(self,jsonDict,fileInfoTuple,jsonTitle):
         currentDir = os.getcwd()
 
         if os.path.exists("Destiny1Grimoire") == False:
@@ -99,11 +100,14 @@ class grimoireScrape():
 
 
         #print(currentDir)
-        
-
-        with open(currentDir + "\grimoireJson.json","a") as jsonFile:
+        jsonTitle = jsonTitle.replace(" ","_");jsonTitle = jsonTitle.replace(":","_");jsonTitle = jsonTitle.replace("\n","");jsonTitle = jsonTitle.replace("<","");jsonTitle = jsonTitle.replace(">","");jsonTitle = jsonTitle.replace("|","")
+        saveTitle = currentDir +"\\" + jsonTitle + ".json"
+                
+        print(saveTitle)
+        with open(saveTitle,"w") as jsonFile:
             json.dump(jsonDict,jsonFile,indent=4)
-        #print(jsonDict)
+        jsonFile.close()
+        
         
     def findLoreEntryObjects(self,soup):
         loreSections = []
@@ -139,7 +143,7 @@ class grimoireScrape():
             print("Image url: ",cardImageUrl)
             print("===============")
             data = self.makeJson(cardTitle,cardSubtitle,cardDescription,cardImageName,cardImageUrl)
-            self.saveJson(data,urlTuple)
+            self.saveJson(data,urlTuple,cardTitle)
             #sys.exit()
             
         # maincontent = soup.find("div",class_="panel panel-default clearfix grimoire-card")
