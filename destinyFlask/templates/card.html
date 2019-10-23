@@ -2,7 +2,9 @@
 <html>
    <head>
        <!--Import materialize.css-->
-      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">>
+       <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='stylesheets/main.css') }}" />
+
+
 
       <title>Destiny Grimoire - card</title>
    </head>	
@@ -14,8 +16,7 @@
                     <div class="card-image">
                         <!-- variable is img -->
                         <img src = {{cardImgPath}}>
-                        <span class="card-title">Card Title</span>
-                    </div>
+                        
                     <span class="card-sub">{{subStr}}</span>
                     <div class="card-content">  
                         <p>{{cardLore}}</p>
