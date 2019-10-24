@@ -9,29 +9,47 @@
       <title>Destiny Grimoire - card</title>
    </head>	
    <body>
-        <div class="row">
-            <div class="col s6 offset-s3 valign">
-                <div class="card grey">
-                    <div class="card-image">
-                        <!-- variable is img -->
-                        <img src = {{cardImgPath}} style=' object-fit: contain'/>
-                        
-                    
+        <nav>
+            
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo center">Destiny Grimoire</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="/cardHome">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
 
-                    <div class="card-content">  
-                        <!--b is bold-->
-                        <h1><b>{{titleStr}}</b></h1>
-                        <!--i is italic-->
-                        <b><i style="font-size:larger;">{{subStr}}</i></b>
-                        
-                        
-                        <p style="max-width: 75%; white-space: pre-line;">{{cardLore}}</p>
-                        
-                        
-                          
+            </div>
+
+
+
+        </nav>
+
+
+
+        <div class="row">
+            
+                <div class="col s4 offset-s4" >
+                    
+                    <div class="card grey">
+                        <div class="card-image">
+                            <img src = {{cardImgPath}} style="object-fit: cover;"/>
+                                <div class="card-content">  
+                                    <!--b is bold-->
+                                    <h1><b>{{titleStr}}</b></h1>
+                                    <!--i is italic-->
+                                    <b><i style="font-size:larger;">{{subStr}}</i></b>
+                                
+                                    <p style=" max-width: fit-content ; white-space: pre-line;">{{cardLore}}</p>
+                                
+                                
+                                
+                                 </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                
+                
+            
         </div>
         
     </body>	
