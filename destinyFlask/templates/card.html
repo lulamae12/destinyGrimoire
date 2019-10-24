@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
    <head>
        <!--Import materialize.css-->
@@ -9,20 +9,30 @@
       <title>Destiny Grimoire - card</title>
    </head>	
    <body>
-        <h1>Destiny Grimoire Card</h1>
         <div class="row">
-            <div class="col s12 m7">
-                <div class="card">
+            <div class="col s6 offset-s3 valign">
+                <div class="card grey">
                     <div class="card-image">
                         <!-- variable is img -->
-                        <img src = {{cardImgPath}}>
+                        <img src = {{cardImgPath}} style=' object-fit: contain'/>
                         
-                    <span class="card-sub">{{subStr}}</span>
+                    
+
                     <div class="card-content">  
-                        <p>{{cardLore}}</p>
+                        <!--b is bold-->
+                        <h1><b>{{titleStr}}</b></h1>
+                        <!--i is italic-->
+                        <b><i style="font-size:larger;">{{subStr}}</i></b>
+                        
+                        
+                        <p style="max-width: 75%; white-space: pre-line;">{{cardLore}}</p>
+                        
+                        
+                          
                     </div>
                 </div>
             </div>
         </div>
+        
     </body>	
 </html>
