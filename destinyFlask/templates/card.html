@@ -4,32 +4,56 @@
        <!--Import materialize.css-->
        <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='stylesheets/main.css') }}" />
 
+       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+       <script type="text/javascript" src="{{url_for('static', filename='js/materialize.min.js')}}"></script>
+       
+       
 
+
+
+      
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">    
 
       <title>Destiny Grimoire - card</title>
    </head>	
    <body>
-        <nav>
+        
+    
+    <nav>
             
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo center">Destiny Grimoire</a>
-                <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li><a href="/cardHome">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                </ul>
+        <div class="nav-wrapper">
+                
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
-            </div>
-
-
-
-        </nav>
-
-
+            <ul class="left hide-on-med-and-down">
+                <li><a href="/cardHome">Home</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+    <ul class="sidenav" id="mobile-demo">
+            <li><a href="/cardHome">Home</a></li>
+            <li><a href="/about">About</a></li>
+        
+    </ul>
+    <script>
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
+        });
+                
+    </script>
+        
 
         <div class="row" style="background-color: black;">
-            
-                <div class="col s4 offset-s4"; style="background-color: rgb(34, 36, 34);">
-                    
+                
+                
+                
+
+
+
+                <div class="col"; style="background-color: rgb(34, 36, 34);">
+
                     
                     
                     <div class="card grey" style = "align-self: auto;">
