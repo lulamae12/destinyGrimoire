@@ -12,7 +12,7 @@ def index():
 
 @app.route("/home")
 def cardHome():
-    return render_template("cardHome.html")
+    return render_template("home.html")
 
 
 
